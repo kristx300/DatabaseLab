@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OnlineShopModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+  <EntityContainer Name="OnlineShopModelStoreContainer">
+    <EntitySet Name="UserSet" EntityType="OnlineShopModel.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductSet" EntityType="OnlineShopModel.Store.ProductSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DeliverySet" EntityType="OnlineShopModel.Store.DeliverySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderSet" EntityType="OnlineShopModel.Store.OrderSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderProduct" EntityType="OnlineShopModel.Store.OrderProduct" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserOrder" Association="OnlineShopModel.Store.UserOrder">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Order" EntitySet="OrderSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderDelivery" Association="OnlineShopModel.Store.OrderDelivery">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Delivery" EntitySet="DeliverySet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProduct_Order" Association="OnlineShopModel.Store.FK_OrderProduct_Order">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="OrderProduct" EntitySet="OrderProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProduct_Product" Association="OnlineShopModel.Store.FK_OrderProduct_Product">
+      <End Role="Product" EntitySet="ProductSet" />
+      <End Role="OrderProduct" EntitySet="OrderProduct" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Cost" Type="decimal" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DeliverySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateCreate" Type="datetime" Nullable="false" />
+    <Property Name="Total" Type="decimal" Nullable="false" />
+    <Property Name="UserId_Id" Type="int" Nullable="false" />
+    <Property Name="DeliveryId_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderProduct">
+    <Key>
+      <PropertyRef Name="Order_Id" />
+      <PropertyRef Name="Product_Id" />
+    </Key>
+    <Property Name="Order_Id" Type="int" Nullable="false" />
+    <Property Name="Product_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserOrder">
+    <End Role="User" Type="OnlineShopModel.Store.UserSet" Multiplicity="1" />
+    <End Role="Order" Type="OnlineShopModel.Store.OrderSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrderDelivery">
+    <End Role="Order" Type="OnlineShopModel.Store.OrderSet" Multiplicity="*" />
+    <End Role="Delivery" Type="OnlineShopModel.Store.DeliverySet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Delivery">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="DeliveryId_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProduct_Order">
+    <End Role="Order" Type="OnlineShopModel.Store.OrderSet" Multiplicity="1" />
+    <End Role="OrderProduct" Type="OnlineShopModel.Store.OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProduct_Product">
+    <End Role="OrderProduct" Type="OnlineShopModel.Store.OrderProduct" Multiplicity="*" />
+    <End Role="Product" Type="OnlineShopModel.Store.ProductSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OnlineShopModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="OnlineShopEntities" >
+          <EntitySet Name="UserSet" EntityType="OnlineShopModel.User" />
+          <EntitySet Name="ProductSet" EntityType="OnlineShopModel.Product" />
+          <EntitySet Name="DeliverySet" EntityType="OnlineShopModel.Delivery" />
+          <EntitySet Name="OrderSet" EntityType="OnlineShopModel.Order" />
+          <AssociationSet Name="UserOrder" Association="OnlineShopModel.UserOrder">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Order" EntitySet="OrderSet" />
+          </AssociationSet>
+          <AssociationSet Name="OrderDelivery" Association="OnlineShopModel.OrderDelivery">
+            <End Role="Order" EntitySet="OrderSet" />
+            <End Role="Delivery" EntitySet="DeliverySet" />
+          </AssociationSet>
+          <AssociationSet Name="OrderProduct" Association="OnlineShopModel.OrderProduct">
+            <End Role="Order" EntitySet="OrderSet" />
+            <End Role="Product" EntitySet="ProductSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" />
+          <NavigationProperty Name="OrderId" Relationship="OnlineShopModel.UserOrder" FromRole="User" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="OnlineShopModel.OrderProduct" FromRole="Product" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Delivery">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="OrderId" Relationship="OnlineShopModel.OrderDelivery" FromRole="Delivery" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="UserId" Relationship="OnlineShopModel.UserOrder" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="DeliveryId" Relationship="OnlineShopModel.OrderDelivery" FromRole="Order" ToRole="Delivery" />
+          <NavigationProperty Name="Product" Relationship="OnlineShopModel.OrderProduct" FromRole="Order" ToRole="Product" />
+        </EntityType>
+        <Association Name="UserOrder">
+          <End Type="OnlineShopModel.User" Role="User" Multiplicity="1" />
+          <End Type="OnlineShopModel.Order" Role="Order" Multiplicity="*" />
+        </Association>
+        <Association Name="OrderDelivery">
+          <End Type="OnlineShopModel.Order" Role="Order" Multiplicity="*" />
+          <End Type="OnlineShopModel.Delivery" Role="Delivery" Multiplicity="1" />
+        </Association>
+        <Association Name="OrderProduct">
+          <End Type="OnlineShopModel.Order" Role="Order" Multiplicity="*" />
+          <End Type="OnlineShopModel.Product" Role="Product" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+  <EntityContainerMapping StorageEntityContainer="OnlineShopModelStoreContainer" CdmEntityContainer="OnlineShopEntities">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(OnlineShopModel.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductSet">
+      <EntityTypeMapping TypeName="IsTypeOf(OnlineShopModel.Product)">
+        <MappingFragment StoreEntitySet="ProductSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeliverySet">
+      <EntityTypeMapping TypeName="IsTypeOf(OnlineShopModel.Delivery)">
+        <MappingFragment StoreEntitySet="DeliverySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderSet">
+      <EntityTypeMapping TypeName="IsTypeOf(OnlineShopModel.Order)">
+        <MappingFragment StoreEntitySet="OrderSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserOrder" TypeName="OnlineShopModel.UserOrder" StoreEntitySet="OrderSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="UserId_Id" />
+      </EndProperty>
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderDelivery" TypeName="OnlineShopModel.OrderDelivery" StoreEntitySet="OrderSet">
+      <EndProperty Name="Delivery">
+        <ScalarProperty Name="Id" ColumnName="DeliveryId_Id" />
+      </EndProperty>
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderProduct" TypeName="OnlineShopModel.OrderProduct" StoreEntitySet="OrderProduct">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Order_Id" />
+      </EndProperty>
+      <EndProperty Name="Product">
+        <ScalarProperty Name="Id" ColumnName="Product_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
