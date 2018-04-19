@@ -41,6 +41,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.SQLRequest = new System.Windows.Forms.Button();
             this.Connect = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.SQLFromButton = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.UserDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,9 +96,9 @@
             // UserDataGridView
             // 
             this.UserDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.UserDataGridView.Location = new System.Drawing.Point(12, 130);
+            this.UserDataGridView.Location = new System.Drawing.Point(12, 156);
             this.UserDataGridView.Name = "UserDataGridView";
-            this.UserDataGridView.Size = new System.Drawing.Size(791, 366);
+            this.UserDataGridView.Size = new System.Drawing.Size(791, 340);
             this.UserDataGridView.TabIndex = 5;
             // 
             // TableList
@@ -119,9 +124,8 @@
             this.ConnectionTextBox.Name = "ConnectionTextBox";
             this.ConnectionTextBox.Size = new System.Drawing.Size(695, 20);
             this.ConnectionTextBox.TabIndex = 12;
-            this.ConnectionTextBox.Text = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\maels\\Documents\\Vis" +
-    "ual Studio 2017\\Projects\\DatabaseForms\\DatabaseForms\\OnlineShop.mdf\";Integrated " +
-    "Security=True";
+            this.ConnectionTextBox.Text = "Data Source=DESKTOP-704OV70\\TEW_SQLEXPRESS;Initial Catalog=TQ;Integrated Security" +
+    "=True";
             // 
             // label2
             // 
@@ -169,11 +173,77 @@
             this.Connect.UseVisualStyleBackColor = true;
             this.Connect.Click += new System.EventHandler(this.Connect_Click);
             // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(809, 22);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(148, 23);
+            this.button1.TabIndex = 18;
+            this.button1.Tag = "select distinct FullName, sum(Total) as MaxSum from UserSet left join OrderSet on" +
+    " OrderSet.UserId_Id = UserSet.Id group by FullName";
+            this.button1.Text = "Сумма заказов";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
+            // SQLFromButton
+            // 
+            this.SQLFromButton.Location = new System.Drawing.Point(12, 130);
+            this.SQLFromButton.Name = "SQLFromButton";
+            this.SQLFromButton.ReadOnly = true;
+            this.SQLFromButton.Size = new System.Drawing.Size(791, 20);
+            this.SQLFromButton.TabIndex = 19;
+            // 
+            // button2
+            // 
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(809, 48);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(148, 23);
+            this.button2.TabIndex = 20;
+            this.button2.Tag = "select distinct FullName, avg(Total) as AvgSum from UserSet left join OrderSet on" +
+    " OrderSet.UserId_Id = UserSet.Id group by FullName";
+            this.button2.Text = "Средняя сумма";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
+            // button3
+            // 
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(809, 77);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(148, 23);
+            this.button3.TabIndex = 21;
+            this.button3.Tag = "select distinct Name, sum(Total) as Sum from DeliverySet left join OrderSet on Or" +
+    "derSet.UserId_Id = DeliverySet.Id group by Name";
+            this.button3.Text = "Сумма заказов Доставки";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
+            // button4
+            // 
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(809, 106);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(148, 23);
+            this.button4.TabIndex = 22;
+            this.button4.Tag = "select top 3 UserSet.FullName, max(Total) as Total from OrderSet inner join UserS" +
+    "et on OrderSet.UserId_Id = UserSet.Id group by Total,FullName order by Total des" +
+    "c";
+            this.button4.Text = "Топ закупок";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
             // UniversalGridView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 508);
+            this.ClientSize = new System.Drawing.Size(969, 508);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.SQLFromButton);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Connect);
             this.Controls.Add(this.SQLRequest);
             this.Controls.Add(this.SQLQuery);
@@ -211,5 +281,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button SQLRequest;
         private System.Windows.Forms.Button Connect;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox SQLFromButton;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }

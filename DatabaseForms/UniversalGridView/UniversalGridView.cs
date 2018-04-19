@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace DatabaseForms.UniversalGridView
@@ -54,6 +55,22 @@ namespace DatabaseForms.UniversalGridView
                             Save.Enabled = false;
                             CreateUpdate.Enabled = false;
                             Delete.Enabled = false;
+                            button1.Enabled = true;
+                            button2.Enabled = true;
+                            button3.Enabled = true;
+                            button4.Enabled = true;
+                            button5.Enabled = true;
+                            button6.Enabled = true;
+                            button7.Enabled = true;
+                            button8.Enabled = true;
+                            button9.Enabled = true;
+                            button10.Enabled = true;
+                            button11.Enabled = true;
+                            button12.Enabled = true;
+                            button13.Enabled = true;
+                            button14.Enabled = true;
+                            button15.Enabled = true;
+                            button16.Enabled = true;
                         }
                         else
                         {
@@ -62,6 +79,22 @@ namespace DatabaseForms.UniversalGridView
                             Save.Enabled = false;
                             CreateUpdate.Enabled = false;
                             Delete.Enabled = false;
+                            button1.Enabled = false;
+                            button2.Enabled = false;
+                            button3.Enabled = false;
+                            button4.Enabled = false;
+                            button5.Enabled = false;
+                            button6.Enabled = false;
+                            button7.Enabled = false;
+                            button8.Enabled = false;
+                            button9.Enabled = false;
+                            button10.Enabled = false;
+                            button11.Enabled = false;
+                            button12.Enabled = false;
+                            button13.Enabled = false;
+                            button14.Enabled = false;
+                            button15.Enabled = false;
+                            button16.Enabled = false;
                             TableList.Items.Add("Нету таблиц");
                         }
                     }
@@ -156,11 +189,44 @@ namespace DatabaseForms.UniversalGridView
 
         private void Dispose(object sender, FormClosingEventArgs e)
         {
-            sCommand.Dispose();
-            sAdapter.Dispose();
-            sBuilder.Dispose();
-            sDs.Dispose();
-            sTable.Dispose();
+            try
+            {
+                sCommand.Dispose();
+                sAdapter.Dispose();
+                sBuilder.Dispose();
+                sDs.Dispose();
+                sTable.Dispose();
+            }
+            catch
+            {
+            }
+        }
+
+        private void SQLButtonClick(object sender, EventArgs e)
+        {
+            Save.Enabled = false;
+            CreateUpdate.Enabled = false;
+            Delete.Enabled = false;
+            try
+            {
+                SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                sCommand = new SqlCommand((sender as Button).Tag.ToString(), connection);
+                sAdapter = new SqlDataAdapter(sCommand);
+                sBuilder = new SqlCommandBuilder(sAdapter);
+                sDs = new DataSet();
+                sAdapter.Fill(sDs, "BindingSet");
+                sTable = sDs.Tables["BindingSet"];
+                connection.Close();
+                UserDataGridView.DataSource = sDs.Tables["BindingSet"];
+                UserDataGridView.ReadOnly = true;
+                UserDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                SQLFromButton.Text = (sender as Button).Tag.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
         }
     }
 }

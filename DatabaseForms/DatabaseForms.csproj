@@ -166,6 +166,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>OnlineShop.mdf</DependentUpon>
     </Content>
+    <Content Include="SQL\Init.sql" />
+    <Content Include="SQL\InitData.sql" />
+    <Content Include="SQL\InitTables.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
