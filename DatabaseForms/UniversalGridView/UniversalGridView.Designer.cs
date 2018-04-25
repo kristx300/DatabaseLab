@@ -46,6 +46,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.UserDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -234,11 +237,53 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.SQLButtonClick);
             // 
+            // button5
+            // 
+            this.button5.Enabled = false;
+            this.button5.Location = new System.Drawing.Point(809, 135);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(148, 23);
+            this.button5.TabIndex = 23;
+            this.button5.Tag = "select DeliverySet.* from DeliverySet inner join OrderSet on DeliverySet.Id = Ord" +
+    "erSet.DeliveryId_Id where OrderSet.Id = 3";
+            this.button5.Text = "Доставка 3го заказа";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
+            // button6
+            // 
+            this.button6.Enabled = false;
+            this.button6.Location = new System.Drawing.Point(809, 164);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(148, 23);
+            this.button6.TabIndex = 24;
+            this.button6.Tag = "select UserSet.* from UserSet inner join OrderSet on UserSet.Id = OrderSet.UserId" +
+    "_Id where OrderSet.Id = 3";
+            this.button6.Text = "Пользователь 3го заказа";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
+            // button7
+            // 
+            this.button7.Enabled = false;
+            this.button7.Location = new System.Drawing.Point(809, 193);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(148, 23);
+            this.button7.TabIndex = 25;
+            this.button7.Tag = "select distinct OrderSet.DateCreate,OrderSet.Total from UserSet inner join OrderS" +
+    "et on UserSet.Id = OrderSet.UserId_Id where Month(OrderSet.DateCreate) > 2";
+            this.button7.Text = "Заказы после февраля";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.SQLButtonClick);
+            // 
             // UniversalGridView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(969, 508);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -286,5 +331,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
     }
 }

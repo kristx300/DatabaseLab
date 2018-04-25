@@ -62,15 +62,6 @@ namespace DatabaseForms.UniversalGridView
                             button5.Enabled = true;
                             button6.Enabled = true;
                             button7.Enabled = true;
-                            button8.Enabled = true;
-                            button9.Enabled = true;
-                            button10.Enabled = true;
-                            button11.Enabled = true;
-                            button12.Enabled = true;
-                            button13.Enabled = true;
-                            button14.Enabled = true;
-                            button15.Enabled = true;
-                            button16.Enabled = true;
                         }
                         else
                         {
@@ -86,15 +77,6 @@ namespace DatabaseForms.UniversalGridView
                             button5.Enabled = false;
                             button6.Enabled = false;
                             button7.Enabled = false;
-                            button8.Enabled = false;
-                            button9.Enabled = false;
-                            button10.Enabled = false;
-                            button11.Enabled = false;
-                            button12.Enabled = false;
-                            button13.Enabled = false;
-                            button14.Enabled = false;
-                            button15.Enabled = false;
-                            button16.Enabled = false;
                             TableList.Items.Add("Нету таблиц");
                         }
                     }
@@ -113,6 +95,11 @@ namespace DatabaseForms.UniversalGridView
 
         private void SQLQuery_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(SQLQuery.Text))
+            {
+                MessageBox.Show("Поле SQL запроса пустое", "Ошибка");
+                return;
+            }
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
