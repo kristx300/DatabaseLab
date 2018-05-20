@@ -4,30 +4,68 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace DatabaseForms.UniversalGridView
+namespace DatabaseForms
 {
     public partial class UniversalGridView : Form
     {
+        /// <summary>
+        ///Представляет инструкцию Transact-SQL или хранимую процедуру, выполняемую над
+        ///базой данных SQL Server. Этот класс не может быть унаследован.        
+        /// </summary>
         private SqlCommand sCommand;
+        /// <summary>
+        ///Представляет набор выполняемых над данными команд и подключения базы данных,
+        ///которые используется для заполнения System.Data.DataSet и обновления базы данных
+        ///SQL Server. Данный класс не может наследоваться.        
+        /// </summary>
         private SqlDataAdapter sAdapter;
+        /// <summary>
+        /// Автоматически генерирует однотабличные команды, которые позволяют согласовать
+        /// изменения, вносимые в объект System.Data.DataSet, со связанной базой данных SQL Server. 
+        /// Этот класс не может быть унаследован.
+        /// </summary>
         private SqlCommandBuilder sBuilder;
+        /// <summary>
+        /// Представляет расположенный в памяти кэш данных.
+        /// </summary>
         private DataSet sDs;
+        /// <summary>
+        /// Представляет одну таблицу с данными в памяти.
+        /// </summary>
         private DataTable sTable;
+        /// <summary>
+        /// Подключена ли форма к базе данных
+        /// </summary>
         private bool IsConnected = false;
+        /// <summary>
+        /// Строка подключения
+        /// </summary>
         private string connectionString;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public UniversalGridView()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Событие нажатия на кнопку
+        /// </summary>
+        /// <param name="sender">Объект который вызвал событие</param>
+        /// <param name="e">Данные о событии</param>
         private void Connect_Click(object sender, EventArgs e)
         {
+            //Если подключен к базе данных
             if (IsConnected)
             {
                 IsConnected = !IsConnected;
+                //Очищаем объекты, вызвав событие с null значениями
                 Dispose(null, null);
+                //Объекту вызвавшему данное событие, в свойстве Text задаем значение
                 (sender as Button).Text = "Отключится";
+                //Очищаем от элементов, объект ComboBox
                 TableList.Items.Clear();
             }
             else
@@ -36,14 +74,22 @@ namespace DatabaseForms.UniversalGridView
                 (sender as Button).Text = "Подключится";
                 TableList.Items.Clear();
                 connectionString = ConnectionTextBox.Text;
+                //Запрос SQL, который возвращает все таблицы в базе данных (работает не во всех версиях базы данных)
                 string getTablesSQL = "SELECT sobjects.name FROM sysobjects sobjects WHERE sobjects.xtype = 'U'";
+                //Создаем подключение
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    //Создаем SQL запрос/объект
                     SqlCommand command = new SqlCommand(getTablesSQL, connection);
+                    //Открываем подключение
                     connection.Open();
+                    //Запускаем SQL запрос, который возвращает значение объекта SqlDataReader
+                    //SqlDataReader
+                    //Предоставляет возможность чтения потока строк только в прямом направлении из базы данных SQL Server
                     SqlDataReader reader = command.ExecuteReader();
                     try
                     {
+                        //Если таблицы есть, то считываем их и включаем необходимые кнопки, иначе выключаем их
                         if (reader.HasRows)
                         {
                             while (reader.Read())
@@ -110,10 +156,14 @@ namespace DatabaseForms.UniversalGridView
                         sAdapter = new SqlDataAdapter(sqlCommand);
                         sBuilder = new SqlCommandBuilder(sAdapter);
                         sDs = new DataSet();
+                        //Заполняем sAdapter и привязываем к определенному имени таблицы.
                         sAdapter.Fill(sDs, "BindingSet");
                         connection.Close();
+                        //Задаем источник данных используя DataSet, и название предыдущего привязывания
                         UserDataGridView.DataSource = sDs.Tables["BindingSet"];
+                        //Помечает DataGridView только на чтение
                         UserDataGridView.ReadOnly = true;
+                        //Вся строка может быть выбрана путем щелчка заголовка строки или ячейки, содержащейся в этой строке.
                         UserDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     }
                 }

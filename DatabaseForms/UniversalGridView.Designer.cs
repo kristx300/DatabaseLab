@@ -1,4 +1,4 @@
-﻿namespace DatabaseForms.UniversalGridView
+﻿namespace DatabaseForms
 {
     partial class UniversalGridView
     {
